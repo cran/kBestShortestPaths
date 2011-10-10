@@ -1,0 +1,4 @@
+write an example using a random graph generator
+output: S4 object with plot and summary
+
+detach(package:kBestShortestPaths, unload=TRUE)

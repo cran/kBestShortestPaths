@@ -1,0 +1,76 @@
+\documentclass[a4paper]{article}
+\SweaveSyntax{SweaveSyntaxLatex}
+
+%\VignetteIndexEntry{Using kBestShortestPaths}
+
+\usepackage{cite, hyperref}
+
+\title{kBestShortestPaths Package}
+\author{Adrin Jalali}
+
+\begin{document}
+
+\maketitle
+\begin{center}
+{\tt adrin.jalali@gmail.com}
+\end{center}
+
+\tableofcontents
+
+\section{Licensing}
+This package is licensed under GNU General Public License version 3 (GPLv3).
+
+\section{Introduction}
+%Finding the shortest path in a graph is a classical problem for which many algorithms exist. For some applications it is needed to not only find the shortest path in a graph, but also find the k-shortest paths in a given graph. Fortunately this problem has a good solution which is presented in \cite{kbest}.
+This package is an interface for AAAAAA's implementation of \cite{kbest} algorithm for finding the k-shortest paths in a given graph in $O(m+n \times log(n) + k)$ where $m$, $n$, and $k$ are the number of edges, nodes and paths, respectively. TODO: add the original implementation's link and name of the author
+
+The core function in this package is $kBestShortestPaths$ which provides a $Paths$ object as output. That object would contain the computed paths and the two functions $summary$ and $plot$ present some information about that object.
+
+\section{Usage}
+The input arguments to the $kBestShortestPaths$ function are a graph, a source node, a destination node, and the number of paths. The second and third arguments are character strings representing the node names. The last argument is an integer number. The first input argument is a graphNEL object. It is under the graph package and is an S4 class. Node names, edges, and edge weights are used to find shortest paths. As an example here is illustrated how to make a sample random graph:
+
+\begin{Scode}{graph-generation}
+library(graph)
+set.seed(123)
+V <- letters[1:10]
+M <- 1:4
+g1 <- randomGraph(V, M, 0.2)
+\end{Scode}
+
+Note that the first line loads the graph library which contains the randomGraph function and the graphNEL-class. Having Rgraphviz installed, it will plot the layed-out graph:
+
+\begin{Scode}{plot-graph,fig=TRUE}
+library(Rgraphviz)
+eAttrs <- list()
+ew <- as.character(unlist(edgeWeights(g1)))
+ew <- ew[setdiff(seq(along = ew), removedEdges(g1))]
+names(ew) <- edgeNames(g1)
+eAttrs$label <- ew
+plot(g1, edgeAttrs = eAttrs)
+\end{Scode}
+
+Using the $kBestShortestPaths$ function the $k$ shortest paths in $g1$ can be identified:
+This makes the $z$ variable, a Paths class object. The summary of this object can be obtained with the $summary$ function.
+
+\begin{Scode}{k-shortest-paths}
+library(kBestShortestPaths)
+z <- kBestShortestPaths(g1, "a", "h", 5)
+summary(z)
+\end{Scode}
+
+
+\begin{Scode}{summary}
+z
+\end{Scode}
+TODO: Talk about Z
+
+And the plot function can be used to visualize the density of the found path weights.
+
+\begin{Scode}{plot-paths,fig=TRUE,echo=TRUE}
+plot(z)
+\end{Scode}
+
+\bibliographystyle{plain}
+\bibliography{kBestShortestPaths}
+
+\end{document}
