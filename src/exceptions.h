@@ -1,3 +1,8 @@
+/*
+ * Implemented by Adrin Jalali <adrin.jalali@gmail.com>
+ * October 2011
+ * Licensed under GPLv3
+*/
 #ifndef _EXCEPTIONS_
 #define _EXCEPTIONS_
 

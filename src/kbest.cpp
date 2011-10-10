@@ -1,3 +1,8 @@
+/*
+ * Implemented by Adrin Jalali <adrin.jalali@gmail.com>
+ * October 2011
+ * Licensed under GPLv3
+*/
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -175,77 +180,77 @@ void unprotect_all()
 	p_count = 0;
 }
 
+void kbest(vector<string> &node_names, 
+		int node_count,
+		vector<string> edge_names,
+		double *edge_weights,
+		int edge_count,
+		int directed_graph,
+		string source_node, 
+		string dest_node,
+		int s_best_count,
+		//outputs
+		vector<vector<string> > &best_paths, 
+		vector<vector<double> > &path_weights)
+{
+	int node_c = node_count;
+	int edge_c = edge_count;
+	int best_count = s_best_count;
+	int directed = directed_graph;
+
+	map<string, int> graphIdMap;
+
+	for (int i = 0; i < node_c; i++)
+	{
+		graphIdMap[node_names[i]] = i;
+	}
+
+	Graph graph;
+	createGraph(graph, graphIdMap, edge_names, edge_weights, edge_c, directed);
+	//Rprintf("%s", graph2str(graph).c_str());
+	//map<string, double> node_size;
+	//map<string, map<string, double> > edge_list;
+	//node_size.clear();
+	//edge_list.clear();
+	//double min_node_size = DBL_MAX, max_node_size = DBL_MIN;
+	//double min_edge_size = DBL_MAX, max_edge_size = DBL_MIN;
+	//	cout << source.text() << " " << graphIdMap[source.text()] << "\n" << dest.text() << " " << graphIdMap[dest.text()] << "\n";
+	//	return;
+
+	//printf("source:%s\ndest:%s\n", source.text(), dest.text());
+	List<List<GraphArc *> > *paths = bestPaths(graph, graphIdMap[source_node], graphIdMap[dest_node], best_count);
+	for ( ListIter<List<GraphArc *> > pathIter(*paths) ; pathIter ; ++pathIter ) 
+	{
+		//double pathWeight = 0;
+		GraphArc *a;
+		//int trim = 0;
+		best_paths.push_back(vector<string>());
+		path_weights.push_back(vector<double>());
+		for ( ListIter<GraphArc *> arcIter(pathIter.data()) ; arcIter ; ++arcIter ) 
+		{
+			a = arcIter.data();
+			//if (pvals[getKey(graphIdMap, a->dest)] < pvals[getKey(graphIdMap, a->source)])
+			//	trim = 1;
+
+			//printf("a->dest:%d\t", a->dest);
+			//printf("getkey:%s\t", getKey(graphIdMap, a->dest).c_str());
+			//printf("best_paths[%d] <- %s\n", node_pos, getKey(graphIdMap, a->dest).c_str());
+
+			char tmp_edge[256];
+			sprintf(tmp_edge, "%s~%s", getKey(graphIdMap, a->source).c_str(), getKey(graphIdMap, a->dest).c_str());
+			best_paths.back().push_back(tmp_edge);
+			path_weights.back().push_back(a->weight);
+			//printf("(%s %lg)", getKey(graphIdMap, a->dest).c_str(), pvals[getKey(graphIdMap, a->dest)]);
+		}
+		//printf("\n");
+	}
+
+	delete paths;
+	delete[] graph.states;
+}
+
 extern "C"
 {
-	void kbest(vector<string> &node_names, 
-			int node_count,
-			vector<string> edge_names,
-			double *edge_weights,
-			int edge_count,
-			int directed_graph,
-			string source_node, 
-			string dest_node,
-			int s_best_count,
-			//outputs
-			vector<vector<string> > &best_paths, 
-			vector<vector<double> > &path_weights)
-	{
-		int node_c = node_count;
-		int edge_c = edge_count;
-		int best_count = s_best_count;
-		int directed = directed_graph;
-
-		map<string, int> graphIdMap;
-
-		for (int i = 0; i < node_c; i++)
-		{
-			graphIdMap[node_names[i]] = i;
-		}
-		
-		Graph graph;
-		createGraph(graph, graphIdMap, edge_names, edge_weights, edge_c, directed);
-		//Rprintf("%s", graph2str(graph).c_str());
-		//map<string, double> node_size;
-		//map<string, map<string, double> > edge_list;
-		//node_size.clear();
-		//edge_list.clear();
-		//double min_node_size = DBL_MAX, max_node_size = DBL_MIN;
-		//double min_edge_size = DBL_MAX, max_edge_size = DBL_MIN;
-		//	cout << source.text() << " " << graphIdMap[source.text()] << "\n" << dest.text() << " " << graphIdMap[dest.text()] << "\n";
-		//	return;
-
-		//printf("source:%s\ndest:%s\n", source.text(), dest.text());
-		List<List<GraphArc *> > *paths = bestPaths(graph, graphIdMap[source_node], graphIdMap[dest_node], best_count);
-		for ( ListIter<List<GraphArc *> > pathIter(*paths) ; pathIter ; ++pathIter ) 
-		{
-			//double pathWeight = 0;
-			GraphArc *a;
-			//int trim = 0;
-			best_paths.push_back(vector<string>());
-			path_weights.push_back(vector<double>());
-			for ( ListIter<GraphArc *> arcIter(pathIter.data()) ; arcIter ; ++arcIter ) 
-			{
-				a = arcIter.data();
-				//if (pvals[getKey(graphIdMap, a->dest)] < pvals[getKey(graphIdMap, a->source)])
-				//	trim = 1;
-				
-				//printf("a->dest:%d\t", a->dest);
-				//printf("getkey:%s\t", getKey(graphIdMap, a->dest).c_str());
-				//printf("best_paths[%d] <- %s\n", node_pos, getKey(graphIdMap, a->dest).c_str());
-
-				char tmp_edge[256];
-				sprintf(tmp_edge, "%s~%s", getKey(graphIdMap, a->source).c_str(), getKey(graphIdMap, a->dest).c_str());
-				best_paths.back().push_back(tmp_edge);
-				path_weights.back().push_back(a->weight);
-				//printf("(%s %lg)", getKey(graphIdMap, a->dest).c_str(), pvals[getKey(graphIdMap, a->dest)]);
-			}
-			//printf("\n");
-		}
-
-		delete paths;
-		delete[] graph.states;
-	}
-	
 	SEXP bozghale(SEXP e_node_names,
 			SEXP e_node_count,
 			SEXP e_edge_names,

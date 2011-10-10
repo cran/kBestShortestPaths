@@ -2,30 +2,34 @@
 \alias{kBestShortestPaths}
 \title{kBestShortestPaths Function Description}
 \description{
-	\code{kBestShortestPaths} is a function which tries to find k-shortest paths in a given graph, a source node, and a destination node. If all possible shortest paths from the source to the destination is less than k, the \code{\link{Paths}} would have all possible paths from source to destination. If no path could be found from source to destination, then the \code{\link{Paths}} class would be empty as return value of the \code{kShortestPaths} function.
+	\code{kBestShortestPaths} is a function which finds the
+	k-shortest paths in between a source and destination node in a
+	given graph (directed or not). 
 }
 \usage{
 kBestShortestPaths(g, source.node, dest.node, best.count)
 }
 \arguments{
   	\item{g}{
-	  	A 'graphNEL-class' object. This object contains nodes, edge names, and edge weights which all are needed in the algorithm.
+	  	A 'graphNEL-class' object. This object contains nodes, edge names, and edge weights.
 	}
  	\item{source.node}{
-	  	An input string which is supposed to be the name of the source node in the graph. All returned paths would have this node as the first node of the path.
+	  	The name of the source node (character). 
   	}
 	\item{dest.node}{
-		An input string which is supposed to be the name of the destination node in the graph. All returned paths would have this node as the last node of the path.
+	  The name of the destination node (character).
 	}
 	\item{best.count}{
-		It is an integer value which shows the maximum number of paths to be returned. The algorithm tries to find \code{best.count} paths. It will return less paths if the number of distinct paths from source to destination is less than the given value.
+		An integer value which shows the maximum number of paths to be returned. The algorithm tries to find \code{best.count} paths. It will return less paths if the number of distinct paths from source to destination is less than the given value.
 	}
 }
 \details{
 Given a graph having n vertices and m edges, the implemented algorithm takes O(m + n log(n) + k) to find k-shortest paths. If the graph is a DAG, it can contain negative edge weights, and if not, all edge weights have to be non-negative.
 }
 \value{
-	\item{Paths}{An object of type \code{\link{Paths}} which contains the calculated k-shortest paths.}
+	\item{Paths}{An object of type \code{\link{Paths}} which
+	  contains the calculated k-shortest paths. If the total number
+	  of paths p is less than k, the \code{\link{Paths}} would have only p paths. If no paths could be found from source to destination, then the \code{\link{Paths}} class would be empty.}
 }
 \references{
 D. Eppstein, Finding the k shortest paths, SIAM J. Comput., 1998 - Citeseer.
@@ -42,7 +46,6 @@ Maintainer: Adrin Jalali<adrin.jalali@gmail.com>
 \examples{
 library(kBestShortestPaths);
 library(graph);
-library(Rgraphviz);
 set.seed(123);
 V <- letters[1:10];
 M <- 1:4;

@@ -22,7 +22,7 @@ This package is licensed under GNU General Public License version 3 (GPLv3).
 
 \section{Introduction}
 %Finding the shortest path in a graph is a classical problem for which many algorithms exist. For some applications it is needed to not only find the shortest path in a graph, but also find the k-shortest paths in a given graph. Fortunately this problem has a good solution which is presented in \cite{kbest}.
-This package is an interface for AAAAAA's implementation of \cite{kbest} algorithm for finding the k-shortest paths in a given graph in $O(m+n \times log(n) + k)$ where $m$, $n$, and $k$ are the number of edges, nodes and paths, respectively. TODO: add the original implementation's link and name of the author
+This package is an interface for Graehl's implementation\footnote{http://www.ics.uci.edu/~eppstein/pubs/graehl.zip} of \cite{kbest} algorithm for finding the k-shortest paths in a given graph in $O(m+n \times log(n) + k)$ time where $m$, $n$, and $k$ are the number of edges, nodes and paths, respectively.
 
 The core function in this package is $kBestShortestPaths$ which provides a $Paths$ object as output. That object would contain the computed paths and the two functions $summary$ and $plot$ present some information about that object.
 
@@ -59,10 +59,10 @@ summary(z)
 \end{Scode}
 
 
+The variable z which is a Paths-class object contains the paths and the edge weights of the computed paths in it.
 \begin{Scode}{summary}
 z
 \end{Scode}
-TODO: Talk about Z
 
 And the plot function can be used to visualize the density of the found path weights.
 

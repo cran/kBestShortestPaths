@@ -19,7 +19,8 @@
 }
 
 \details{
-	Given the \code{\link{Paths}} object, this method prints the path count that object contains.
+	Given the \code{\link{Paths}} object, this method prints a
+	summary .
 }
 
 \seealso{\code{\link{Paths}}, \code{\link{kBestShortestPaths}}}

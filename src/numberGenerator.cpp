@@ -1,3 +1,8 @@
+/*
+ * Implemented by Adrin Jalali <adrin.jalali@gmail.com>
+ * October 2011
+ * Licensed under GPLv3
+*/
 #include "numberGenerator.h"
 #include <cstring>
 #include <cstdio>

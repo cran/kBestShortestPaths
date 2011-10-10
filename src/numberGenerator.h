@@ -1,3 +1,8 @@
+/*
+ * Implemented by Adrin Jalali <adrin.jalali@gmail.com>
+ * October 2011
+ * Licensed under GPLv3
+*/
 #ifndef _NUMBER_GENERATOR_
 #define _NUMBER_GENERATOR_
 

@@ -9,6 +9,6 @@
 \section{Slots}{
 	\describe{
 		\item{\code{best.paths}:}{A \code{\link{list}} containing the list of paths. Each path is a vector of edge names.}
-
+		\item{\code{best.scores}:}{A \code{\link{list}} containing the edge weigths of the corresponding paths.}
 	}
 }

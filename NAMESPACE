@@ -6,3 +6,4 @@ importClassesFrom(methods, list, vector)
 importFrom(graphics, abline, axis, par, title, plot)
 importFrom(stats, density)
 importMethodsFrom(graph, edgeWeights, nodes)
+
