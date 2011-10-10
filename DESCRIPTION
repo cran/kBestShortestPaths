@@ -1,14 +1,13 @@
 Package: kBestShortestPaths
 Title: kbest: Finds K best paths in a given graph.
-Version: 0.1.1
+Version: 0.1.2
 Date: 2011-10-10
 Author: Adrin Jalali, Nima Aghaeepour
 Description: Finds K shortest paths in a given graph.
-Imports: methods, graph
-Suggests: Rgraphviz
+Imports: methods, graph, Rgraphviz
 Maintainer: Adrin Jalali <adrin.jalali@gmail.com>
 Dependencies:
 License: GPL (>= 3)
-Packaged: 2011-10-28 19:53:12 UTC; ajalali
+Packaged: 2011-11-03 21:56:51 UTC; adrin
 Repository: CRAN
-Date/Publication: 2011-11-02 17:25:53
+Date/Publication: 2011-11-04 07:32:55

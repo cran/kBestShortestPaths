@@ -113,9 +113,9 @@ void insertShortPath(int source, int dest, ListIter<GraphArc *> &path)
 List<List<GraphArc *> > *bestPaths(Graph graph, int source, int dest, int k)
 {
 	int nStates = graph.nStates;
-	assert(nStates > 0 && graph.states);
-	assert(source >= 0 && source < nStates);
-	assert(dest >= 0 && dest < nStates);
+	//assert(nStates > 0 && graph.states);
+	//assert(source >= 0 && source < nStates);
+	//assert(dest >= 0 && dest < nStates);
 
 	List<List<GraphArc *> > *paths = new List<List<GraphArc *> >;
 	ListIter<List<GraphArc *> > insertHere(*paths); // append rather than push so best path comes first in list
@@ -155,7 +155,7 @@ List<List<GraphArc *> > *bestPaths(Graph graph, int source, int dest, int k)
 					EdgePath *top = pathQueue;
 					GraphArc *cutArc;
 					List<GraphArc *> shortPath;
-					      //printf("%lg\n", top->weight);
+					      //Rprintf("%lg\n", top->weight);
 					if ( top->heapPos == -1 )
 						cutArc = top->node->arc;
 					else
@@ -259,13 +259,13 @@ List<List<GraphArc *> > *bestPaths(Graph graph, int source, int dest, int k)
 Graph sidetrackGraph(Graph fullGraph, Graph shortGraph, double *dist)
 {
 	//  subtracts shortGraph from fullGraph, arcs' data member points to arc in fullGraph
-	assert(fullGraph.nStates == shortGraph.nStates);
+	//assert(fullGraph.nStates == shortGraph.nStates);
 	int nStates = fullGraph.nStates;
 	GraphState *sub = new GraphState[nStates];
 	for ( int i = 0 ; i < nStates ; ++i )
 		if ( dist[i] != HUGE_VAL ) 
 			for ( ListIter<GraphArc> l(fullGraph.states[i].arcs) ; l ; ++l ) {
-				assert(i == l.data().source);
+				//assert(i == l.data().source);
 				int isShort = 0;
 				for ( ListIter<GraphArc> r(shortGraph.states[i].arcs) ; r ; ++r )
 					if ( r.data().data == &l.data() ) { // arcs in shortest path tree have data pointing to the arc corresponding to it in the original graph
@@ -317,7 +317,7 @@ void buildSidetracksHeap(int state, int pred)
 			for ( ListIter<GraphArc> gArc(sidetracks.states[state].arcs) ; gArc ; ++gArc )
 				if ( &gArc.data() != min )
 					(heapI++)->p = &gArc.data();
-			assert(heapI == heapStart + heapSize);
+			//assert(heapI == heapStart + heapSize);
 			heapBuild(heapStart, heapStart + heapSize);
 		} else
 			pathGraph[state]->arcHeap = NULL;
@@ -331,18 +331,18 @@ void buildSidetracksHeap(int state, int pred)
 void printTree(GraphHeap *t, int n)
 {
 	int i;
-	for ( i = 0 ; i < n ; ++i ) printf(" ");
+	for ( i = 0 ; i < n ; ++i ) Rprintf(" ");
 	if ( !t ) {
-		printf("-\n");
+		Rprintf("-\n");
 		return;
 	}
-	printf("%s", arc2str(*t->arc).c_str());
-	printf(" [");
+	Rprintf("%s", arc2str(*t->arc).c_str());
+	Rprintf(" [");
 	pGraphArc *heap = t->arcHeap;
 	for ( i = 0 ; i < t->arcHeapSize ; ++i ) {
-		printf("%s", arc2str(*heap[i].p).c_str());
+		Rprintf("%s", arc2str(*heap[i].p).c_str());
 	}
-	printf("]\n");
+	Rprintf("]\n");
 	if ( !t->left && !t->right )
 		return;
 	printTree(t->left, n+1);
@@ -351,19 +351,19 @@ void printTree(GraphHeap *t, int n)
 
 void shortPrintTree(GraphHeap *t)
 {
-	printf("%s", arc2str(*t->arc).c_str());
+	Rprintf("%s", arc2str(*t->arc).c_str());
 	if ( !t->left && !t->right )
 		return;
-	printf(" (");
+	Rprintf(" (");
 	if ( t->left) {
 		shortPrintTree(t->left);
 		if ( t->right ) {
-			printf(" ");
+			Rprintf(" ");
 			shortPrintTree(t->right);
 		}
 	} else
 		if ( t->right )
 			shortPrintTree(t->right);
-	printf(")");
+	Rprintf(")");
 }      
 

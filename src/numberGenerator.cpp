@@ -88,12 +88,12 @@ NumberGenerator &NumberGenerator::next()
 	}
 
 	int inc = firstIncreasableIndex();
-	//fprintf(stderr, "%d !!!\n", inc);
+	//Rprintf("%d !!!\n", inc);
 	if (inc != -1)
 	{
 		if (inc > 0 && !this->_data[inc])
 		{
-			//fprintf(stderr, "happened! inc:%d\n", inc);
+			//Rprintf("happened! inc:%d\n", inc);
 			this->_data[inc - 1] = 0;
 		}
 		this->_data[inc]++;
@@ -131,18 +131,18 @@ void NumberGenerator::resetLessSignificantNonZeroDigits(int index)
 		if (this->_data[i])
 			count++;
 
-	//fprintf(stderr, "count: %d ", count);
+	//Rprintf("count: %d ", count);
 	for (int i = 0; i < count; i++)
 	{
-		//fprintf(stderr, "%d ", i);
+		//Rprintf("%d ", i);
 		this->_data[i] = 1;
 	}
 	for (int i = count; i < index; i++)
 	{
-		//fprintf(stderr, "_%d ", i);
+		//Rprintf("_%d ", i);
 		this->_data[i] = 0;
 	}
-	//fprintf(stderr, "\n");
+	//Rprintf("\n");
 }
 
 int NumberGenerator::greatestNonZeroIndex()

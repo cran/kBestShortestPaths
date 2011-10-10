@@ -20,7 +20,7 @@
 #include "numberGenerator.h"
 #include "exceptions.h"
 #include "dataRead.h"
-
+#include "mystring.h"
 
 using namespace std;
 using namespace tfl;
@@ -64,14 +64,14 @@ void addToGraph(Graph &g, map<string, int> &graphIdMap, map<string, double> &pva
 		a.weight = -pvals[n.text()];
 		a.data = NULL;
 		g.states[a.source].arcs.push(a);
-//		printf("(%s %s %lg)\n", neighbor.text(), n.text(), a.weight);
+//		Rprintf("(%s %s %lg)\n", neighbor.text(), n.text(), a.weight);
 //		cerr << "source: " << n.text() << " dest: " << neighbor.text();
 //		cerr << " one item added: " << a << endl;
 //		cerr << g;
 
 		if (!visited[graphIdMap[neighbor.text()]])
 		{
-//			fprintf(stderr, "----calling in this state: %s to %s\n", n.text(), neighbor.text());
+//			Rprintf("----calling in this state: %s to %s\n", n.text(), neighbor.text());
 			addToGraph(g, graphIdMap, pvals, neighbor, id, visited);
 		}
 	}
@@ -92,9 +92,9 @@ void createGraph(Graph &g, map<string, int> &graphIdMap, vector<string> edge_nam
 		char *save_ptr;
 		char edge_[256];
 		strncpy(edge_, edge_names[i].c_str(), 256);
-		tmp = strtok_r(edge_, "~", &save_ptr);
+		tmp = my_strtok_r(edge_, "~", &save_ptr);
 		string source = tmp;
-		tmp = strtok_r(NULL, "~", &save_ptr);
+		tmp = my_strtok_r(NULL, "~", &save_ptr);
 		string dest = tmp;
 		a.source = graphIdMap[source];
 		a.dest = graphIdMap[dest];
@@ -109,7 +109,7 @@ void createGraph(Graph &g, map<string, int> &graphIdMap, vector<string> edge_nam
 			a.data = NULL;
 			g.states[a.dest].arcs.push(a);
 		}
-//		printf("(%s %s %lg)\n", neighbor.text(), n.text(), a.weight);
+//		Rprintf("(%s %s %lg)\n", neighbor.text(), n.text(), a.weight);
 //		cerr << "source: " << n.text() << " dest: " << neighbor.text();
 //		cerr << " one item added: " << a << endl;
 //		cerr << g;
@@ -217,7 +217,7 @@ void kbest(vector<string> &node_names,
 	//	cout << source.text() << " " << graphIdMap[source.text()] << "\n" << dest.text() << " " << graphIdMap[dest.text()] << "\n";
 	//	return;
 
-	//printf("source:%s\ndest:%s\n", source.text(), dest.text());
+	//Rprintf("source:%s\ndest:%s\n", source.text(), dest.text());
 	List<List<GraphArc *> > *paths = bestPaths(graph, graphIdMap[source_node], graphIdMap[dest_node], best_count);
 	for ( ListIter<List<GraphArc *> > pathIter(*paths) ; pathIter ; ++pathIter ) 
 	{
@@ -232,17 +232,17 @@ void kbest(vector<string> &node_names,
 			//if (pvals[getKey(graphIdMap, a->dest)] < pvals[getKey(graphIdMap, a->source)])
 			//	trim = 1;
 
-			//printf("a->dest:%d\t", a->dest);
-			//printf("getkey:%s\t", getKey(graphIdMap, a->dest).c_str());
-			//printf("best_paths[%d] <- %s\n", node_pos, getKey(graphIdMap, a->dest).c_str());
+			//Rprintf("a->dest:%d\t", a->dest);
+			//Rprintf("getkey:%s\t", getKey(graphIdMap, a->dest).c_str());
+			//Rprintf("best_paths[%d] <- %s\n", node_pos, getKey(graphIdMap, a->dest).c_str());
 
 			char tmp_edge[256];
 			sprintf(tmp_edge, "%s~%s", getKey(graphIdMap, a->source).c_str(), getKey(graphIdMap, a->dest).c_str());
 			best_paths.back().push_back(tmp_edge);
 			path_weights.back().push_back(a->weight);
-			//printf("(%s %lg)", getKey(graphIdMap, a->dest).c_str(), pvals[getKey(graphIdMap, a->dest)]);
+			//Rprintf("(%s %lg)", getKey(graphIdMap, a->dest).c_str(), pvals[getKey(graphIdMap, a->dest)]);
 		}
-		//printf("\n");
+		//Rprintf("\n");
 	}
 
 	delete paths;
@@ -361,16 +361,17 @@ void destroy(char **v, int x)
 	free(v);
 }
 
+/*
 int main(int argc, char **argv)
 {
 	try
 	{
 		if (argc != 5)
 		{
-			fprintf(stderr, "usage: %s signs_file pvalue_file back_trace_start_string path_count\n", argv[0]);
+			Rprintf("usage: %s signs_file pvalue_file back_trace_start_string path_count\n", argv[0]);
 			exit(-1);
 		}
-/*		char *pval_file_name = argv[2];
+		char *pval_file_name = argv[2];
 		char *signs_file_name = argv[1];
 		char *back_trace_start = argv[3];
 		int path_count = atoi(argv[4]);
@@ -423,13 +424,13 @@ int main(int argc, char **argv)
 		destroy(gnodes, path_count * protein_count * 3);
 		destroy(gedges, path_count * protein_count * 5);
 		delete[] pvals;
-		delete[] s_values;*/
+		delete[] s_values;
 	}
 	catch (Exception e)
 	{
-		fprintf(stderr, "%s\n", e.getMsg().c_str());
+		Rprintf("%s\n", e.getMsg().c_str());
 	}
 	
 	return 0;
 }
-
+*/

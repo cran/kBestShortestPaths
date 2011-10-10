@@ -1,6 +1,6 @@
 #include <cmath>
 //#include <iostream>
-#include <cassert>
+//#include <cassert>
 #include <new>
 //#define CUSTOMNEW
 #include "2heap.h"
